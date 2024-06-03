@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Operaciones</title>
+</head>
+<body>
+    <h1>Lista de Operaciones</h1>
+    <ul>
+        {% for operacion in operaciones %}
+        <li>{{ operacion.fecha_operacion }}: {{ operacion.cajero }} - {{ operacion.gaveta }} - {{ operacion.total_por_denominacion }} - {{ operacion.fecha_actualizacion }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
