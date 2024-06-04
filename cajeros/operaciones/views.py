@@ -9,7 +9,7 @@ def registrar_operacion(request):
         form = OperacionForm(request.POST)
         if form.is_valid():
             operacion = form.save(commit=False)
-            operacion.usuario = request.user
+            operacion.usuario = request.user  # Asignar el usuario logueado
             operacion.save()
             return redirect('operaciones:lista_operaciones')
     else:
@@ -21,3 +21,6 @@ def lista_operaciones(request):
     operaciones = Operacion.objects.filter(usuario=request.user)
     return render(request, 'operaciones/lista_operaciones.html', {'operaciones': operaciones})
 
+
+def home(request):
+    return render(request, 'home.html')

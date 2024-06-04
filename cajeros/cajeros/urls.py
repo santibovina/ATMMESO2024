@@ -17,13 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.contrib.auth import views as auth_views
+from operaciones.views import home
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('operaciones/', include('operaciones.urls')),
-]
-
-urlpatterns += [
     path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
     path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('', home, name='home'),  # Agrega esta línea para la página principal
 ]

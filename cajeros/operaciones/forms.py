@@ -5,7 +5,7 @@ class OperacionForm(forms.ModelForm):
     class Meta:
         model = Operacion
         fields = ['cajero', 'gaveta', 'numero_precinto', 'total_por_denominacion', 'fecha_actualizacion']
-
+        
     def clean(self):
         cleaned_data = super().clean()
         gaveta = cleaned_data.get("gaveta")
@@ -15,4 +15,3 @@ class OperacionForm(forms.ModelForm):
             if gaveta.denominacion_billete != total_por_denominacion:
                 raise forms.ValidationError("La denominación del billete no coincide con la de la gaveta.")
         return cleaned_data
-
