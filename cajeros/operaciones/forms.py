@@ -4,7 +4,7 @@ from .models import Operacion, Cajero, Gaveta
 class OperacionForm(forms.ModelForm):
     class Meta:
         model = Operacion
-        fields = ['cajero', 'gaveta', 'numero_precinto', 'total_por_denominacion', 'fecha_actualizacion']
+        fields = ['fecha_actualizacion', 'cajero', 'numero_precinto', 'billete', 'total_por_denominacion', 'gaveta']
         
     def clean(self):
         cleaned_data = super().clean()

@@ -1,10 +1,13 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
     <title>Lista de Operaciones</title>
 </head>
 <body>
-    <h1>Lista de Operaciones</h1>
+    <h1>ATMmeso</h1>
+    <h2>Lista de Operaciones</h2>
     <ul>
         {% for operacion in operaciones %}
         <li>{{ operacion.fecha_operacion }}: {{ operacion.cajero }} - {{ operacion.gaveta }} - {{ operacion.total_por_denominacion }} - {{ operacion.fecha_actualizacion }}</li>
