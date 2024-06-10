@@ -10,7 +10,7 @@
     <h2>Lista de Operaciones</h2>
     <ul>
         {% for operacion in operaciones %}
-        <li>{{ operacion.fecha_operacion }}: {{ operacion.cajero }} - {{ operacion.gaveta }} - {{ operacion.total_por_denominacion }} - {{ operacion.fecha_actualizacion }}</li>
+        <li>{{ operacion.fecha_operacion }}: {{ operacion.cajero }} - {{ operacion.gaveta }} - ${{ operacion.total_por_gaveta }} - {{ operacion.fecha_actualizacion }}</li>
         {% endfor %}
     </ul>
 </body>
