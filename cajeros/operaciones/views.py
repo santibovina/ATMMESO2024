@@ -1,20 +1,26 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from .forms import OperacionForm
+from .forms import OperacionForm, DetalleGavetaFormSet
 from .models import Operacion
 
 @login_required
 def registrar_operacion(request):
     if request.method == 'POST':
         form = OperacionForm(request.POST)
-        if form.is_valid():
+        formset = DetalleGavetaFormSet(request.POST)
+        if form.is_valid() and formset.is_valid():
             operacion = form.save(commit=False)
-            operacion.usuario = request.user  # Asignar el usuario logueado
+            operacion.usuario = request.user
             operacion.save()
+            detalles = formset.save(commit=False)
+            for detalle in detalles:
+                detalle.operacion = operacion
+                detalle.save()
             return redirect('operaciones:lista_operaciones')
     else:
         form = OperacionForm()
-    return render(request, 'operaciones/registrar_operacion.html', {'form': form})
+        formset = DetalleGavetaFormSet()
+    return render(request, 'operaciones/registrar_operacion.html', {'form': form, 'formset': formset})
 
 @login_required
 def lista_operaciones(request):
