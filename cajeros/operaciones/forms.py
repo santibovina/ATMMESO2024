@@ -1,6 +1,5 @@
 from django import forms
-from .models import Operacion, DetalleGaveta
-from django.forms.models import inlineformset_factory
+from .models import Operacion
 
 class OperacionForm(forms.ModelForm):
     class Meta:
