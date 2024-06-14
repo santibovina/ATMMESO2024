@@ -46,16 +46,17 @@ class Gaveta(models.Model):
 
 class Operacion(models.Model):
     fecha_operacion = models.DateTimeField(auto_now_add=True)
-    fecha_actualizacion = models.DateField()
+    fecha_habilitacion = models.DateField()
     cajero = models.ForeignKey(Cajero, on_delete=models.CASCADE)
     gaveta = models.ForeignKey(Gaveta, on_delete=models.CASCADE)
-    numero_precinto = models.CharField(max_length=100, unique=True)
-    # billete = models.ForeignKey(Billete, on_delete=models.CASCADE, null=True, blank=True)
+    precinto_gaveta = models.CharField(max_length=15, unique=True)
     total_por_gaveta = models.IntegerField()
+    precinto_depurador = models.CharField(max_length=15, unique=True, null=True, blank=True)
+    precinto_bolso = models.CharField(max_length=15, unique=True)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.fecha_operacion.strftime("%d/%m/%Y")} - {self.cajero} - ${self.gaveta.denominacion_billete} - ${self.total_por_gaveta} - {self.gaveta.id_gaveta} - {self.usuario}"
+        return f"{self.fecha_habilitacion} - {self.cajero} - ${self.gaveta.denominacion_billete} - ${self.total_por_gaveta} - {self.fecha_operacion.strftime("%d/%m/%Y")} - {self.usuario}"
     
 class TipoDiferencia(models.Model):
     tipo_diferencia = models.CharField(max_length=100)
