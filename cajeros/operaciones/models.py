@@ -34,7 +34,7 @@ class Tipologia(models.Model):
         return self.tipologia_gaveta
 
 class Gaveta(models.Model):
-    id_gaveta = models.CharField(max_length=100, unique=True)
+    id_gaveta = models.CharField(max_length=10, unique=True)
     banco = models.ForeignKey(Banco, on_delete=models.CASCADE)
     denominacion_billete = models.ForeignKey(Billete, on_delete=models.CASCADE)
     modelo_atm = models.ForeignKey(Modelo, on_delete=models.CASCADE, null=True, blank=True)
@@ -48,14 +48,24 @@ class Operacion(models.Model):
     fecha_operacion = models.DateTimeField(auto_now_add=True)
     fecha_actualizacion = models.DateField()
     cajero = models.ForeignKey(Cajero, on_delete=models.CASCADE)
-    gaveta = models.ForeignKey(Gaveta, on_delete=models.CASCADE)
-    numero_precinto = models.CharField(max_length=100, unique=True)
-    # billete = models.ForeignKey(Billete, on_delete=models.CASCADE, null=True, blank=True)
-    total_por_gaveta = models.IntegerField()
+    #gaveta = models.ForeignKey(Gaveta, on_delete=models.CASCADE)
+    #numero_precinto = models.CharField(max_length=10, unique=True)
+    #total_por_gaveta = models.CharField(max_length=25)
+    precinto_depurador = models.CharField(max_length=10, unique=True, null=True, blank=True)
+    precinto_bolso = models.CharField(max_length=10, unique=True, null=False, blank=False)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.fecha_operacion.strftime("%d/%m/%Y")} - {self.cajero} - ${self.gaveta.denominacion_billete} - ${self.total_por_gaveta} - {self.gaveta.id_gaveta} - {self.usuario}"
+    
+class DetalleGaveta(models.Model):
+    operacion = models.ForeignKey(Operacion, on_delete=models.CASCADE, related_name="detalles_gaveta")
+    gaveta = models.ForeignKey(Gaveta, on_delete=models.CASCADE)
+    numero_precinto = models.CharField(max_length=10, unique=True)
+    total_por_gaveta = models.CharField(max_length=25)
+
+    def __str__(self):
+        return f"Gaveta: {self.gaveta.id_gaveta} - {self.total_por_gaveta}"
     
 class TipoDiferencia(models.Model):
     tipo_diferencia = models.CharField(max_length=100)
