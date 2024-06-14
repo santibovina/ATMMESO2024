@@ -34,7 +34,7 @@ class Tipologia(models.Model):
         return self.tipologia_gaveta
 
 class Gaveta(models.Model):
-    id_gaveta = models.CharField(max_length=100, unique=True)
+    id_gaveta = models.CharField(max_length=10, unique=True)
     banco = models.ForeignKey(Banco, on_delete=models.CASCADE)
     denominacion_billete = models.ForeignKey(Billete, on_delete=models.CASCADE)
     modelo_atm = models.ForeignKey(Modelo, on_delete=models.CASCADE, null=True, blank=True)
