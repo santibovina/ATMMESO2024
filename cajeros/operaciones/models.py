@@ -1,19 +1,29 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+# python manage.py makemigrations <----- lee el archivo models y crea un archivo de migracio
+# python manage.py migrate <----- toma las migraciones pendientes y las vuelca en las BBDD
+
 class Banco(models.Model):
     nombre = models.CharField(max_length=255)
 
     def __str__(self):
         return self.nombre
 
+class RedAtm(models.Model):
+    red_atm = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.red_atm
+
 class Cajero(models.Model):
     id_cajero = models.CharField(max_length=100, unique=True)
     banco = models.ForeignKey(Banco, on_delete=models.CASCADE)
+    red_atm = models.ForeignKey(RedAtm, on_delete=models.CASCADE)
     ubicacion = models.CharField(max_length=255)
 
     def __str__(self):
-        return f"{self.id_cajero} - {self.banco} - {self.ubicacion}"
+        return f"{self.id_cajero} - {self.banco} - {self.red_atm} - {self.ubicacion}"
     
 class Billete(models.Model):
     billete_denominacion = models.IntegerField()
@@ -47,10 +57,10 @@ class Gaveta(models.Model):
 class Operacion(models.Model):
     fecha_operacion = models.DateTimeField(auto_now_add=True)
     fecha_habilitacion = models.DateField()
-    cajero = models.ForeignKey(Cajero, on_delete=models.CASCADE)
+    cajero = models.ForeignKey(Cajero, on_delete=models.CASCADE, verbose_name="ATM")
     gaveta = models.ForeignKey(Gaveta, on_delete=models.CASCADE)
     precinto_gaveta = models.CharField(max_length=15, unique=True)
-    total_por_gaveta = models.IntegerField()
+    total_por_gaveta = models.IntegerField(verbose_name="")
     precinto_depurador = models.CharField(max_length=15, unique=True, null=True, blank=True)
     precinto_bolso = models.CharField(max_length=15, unique=True)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
