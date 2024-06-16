@@ -8,10 +8,34 @@
 <body>
     <h1>ATMmeso</h1>
     <h2>Lista de Operaciones</h2>
-    <ul>
+    <table>
+        <tr>
+            <th>Fecha habilitación</th>
+            <th>ATM</th>
+            <th>Precinto</th>
+            <th>Denominación</th>
+            <th>Total gaveta</th>
+            <th>Armado</th>
+            <th>Fecha carga</th>
+            <th>Id gaveta</th>
+        </tr>
+
         {% for operacion in operaciones %}
-        <li>{{ operacion.fecha_operacion }}: {{ operacion.cajero }} - {{ operacion.gaveta }} - ${{ operacion.total_por_gaveta }} - {{ operacion.fecha_actualizacion }}</li>
+
+        <tr>
+            <td>{{ operacion.fecha_habilitacion|date:"d M, Y" }}</td>
+            <td>{{ operacion.cajero.id_cajero }}</td>
+            <td>{{ operacion.precinto_gaveta }}</td>
+            <td>{{ operacion.gaveta.denominacion_billete }}</td>
+            <td>${{ operacion.total_por_gaveta }}</td>
+            <td>{{ operacion.usuario }}</td>
+            <td>{{ operacion.fecha_operacion|date:"SHORT_DATE_FORMAT" }} {{ operacion.fecha_operacion|time:"h:i a" }}</td>
+            <td>{{ operacion.usuario }}</td>
+        </tr>
+
         {% endfor %}
-    </ul>
+
+    </table>
+    
 </body>
 </html>
