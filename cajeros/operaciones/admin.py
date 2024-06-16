@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Cajero, Gaveta, Operacion, Banco, Billete, Modelo, Tipologia, TipoDiferencia, Portavalor, Diferencias
+from .models import Cajero, Gaveta, RedAtm, Operacion, Banco, Billete, Modelo, Tipologia, TipoDiferencia, Portavalor, Diferencias
 
 class OperacionesAdmin(admin.ModelAdmin):
     search_fields = ['precinto_gaveta', 'precinto_bolso']
@@ -9,6 +9,7 @@ class OperacionesAdmin(admin.ModelAdmin):
 
 admin.site.register(Banco)
 admin.site.register(Cajero)
+admin.site.register(RedAtm)
 admin.site.register(Gaveta)
 admin.site.register(Operacion, OperacionesAdmin)
 admin.site.register(Billete)

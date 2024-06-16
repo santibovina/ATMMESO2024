@@ -23,7 +23,7 @@ class Cajero(models.Model):
     ubicacion = models.CharField(max_length=255)
 
     def __str__(self):
-        return f"{self.id_cajero} - {self.banco} - {self.red_atm} - {self.ubicacion}"
+        return f"Id: {self.id_cajero} | Banco: {self.banco} | Red: {self.red_atm} | Ubicación: {self.ubicacion}"
     
 class Billete(models.Model):
     billete_denominacion = models.IntegerField()
@@ -60,13 +60,13 @@ class Operacion(models.Model):
     cajero = models.ForeignKey(Cajero, on_delete=models.CASCADE, verbose_name="ATM")
     gaveta = models.ForeignKey(Gaveta, on_delete=models.CASCADE)
     precinto_gaveta = models.CharField(max_length=15, unique=True)
-    total_por_gaveta = models.IntegerField(verbose_name="")
+    total_por_gaveta = models.IntegerField()
     precinto_depurador = models.CharField(max_length=15, unique=True, null=True, blank=True)
     precinto_bolso = models.CharField(max_length=15, unique=True)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.fecha_habilitacion} - {self.cajero} - ${self.gaveta.denominacion_billete} - ${self.total_por_gaveta} - {self.fecha_operacion.strftime("%d/%m/%Y")} - {self.usuario}"
+        return f"Fecha habilitación: {self.fecha_habilitacion.strftime("%d/%m/%Y")} | Id cajero: {self.cajero.id_cajero} | Banco: {self.cajero.banco} | Denominación: {self.gaveta.denominacion_billete} | Total gaveta 1: ${self.total_por_gaveta} | Fecha carga: {self.fecha_operacion.strftime("%d/%m/%Y")} por {self.usuario}"
     
 class TipoDiferencia(models.Model):
     tipo_diferencia = models.CharField(max_length=100)
