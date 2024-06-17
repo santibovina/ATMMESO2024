@@ -2,21 +2,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="{% static 'style.css' %}">
     <title>Registrar Operación</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
-    <h1>ATMmeso</h1>
-    <h2>Registrar Operación</h2>
+    <h1>Registrar Operación</h1>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_ul }}
+        {{ form.as_p }}
         {{ formset.management_form }}
-        {% for form in formset %}
-            {{ form.as_p }}
-        {% endfor %}
+        <div id="gaveta-formset">
+            {% for form in formset %}
+                <div class="gaveta-form">
+                    {{ form.gaveta }}
+                    {{ form.numero_precinto }}
+                    {{ form.total_por_gaveta }}
+                    <button type="button" class="delete-gaveta">Eliminar</button>
+                </div>
+            {% endfor %}
+        </div>
         <button type="submit">Registrar</button>
-        <button type="reset">Limpiar</button>
     </form>
+    <button type="button" id="add-gaveta">Agregar Gaveta</button>
+
+    <script>
+        $(function() {
+            $('#id_fecha_actualizacion').datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
+
+            $('#add-gaveta').click(function() {
+                var form_idx = $('#id_detallegaveta_set-TOTAL_FORMS').val();
+                $('#gaveta-formset').append($('#empty-form').html().replace(/__prefix__/g, form_idx));
+                $('#id_detallegaveta_set-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+            });
+
+            $(document).on('click', '.delete-gaveta', function() {
+                $(this).closest('.gaveta-form').remove();
+            });
+        });
+    </script>
+
+    <!-- Formulario vacío para ser clonado -->
+    <div id="empty-form" style="display: none;">
+        <div class="gaveta-form">
+            {{ formset.empty_form.gaveta }}
+            {{ formset.empty_form.numero_precinto }}
+            {{ formset.empty_form.total_por_gaveta }}
+            <button type="button" class="delete-gaveta">Eliminar</button>
+        </div>
+    </div>
 </body>
 </html>
