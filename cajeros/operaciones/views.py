@@ -21,6 +21,5 @@ def lista_operaciones(request):
     operaciones = Operacion.objects.filter(usuario=request.user)
     return render(request, 'operaciones/lista_operaciones.html', {'operaciones': operaciones})
 
-
 def home(request):
     return render(request, 'home.html')

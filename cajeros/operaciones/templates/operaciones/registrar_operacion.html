@@ -10,12 +10,13 @@
     <h2>Registrar Operación</h2>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form.as_ul }}
         {{ formset.management_form }}
         {% for form in formset %}
             {{ form.as_p }}
         {% endfor %}
         <button type="submit">Registrar</button>
+        <button type="reset">Limpiar</button>
     </form>
 </body>
 </html>
