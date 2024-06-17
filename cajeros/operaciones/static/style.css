@@ -17,3 +17,9 @@ h2 {
     color: #212529;
     padding: 2rem;
 }
+
+form {
+    width: 40rem;
+    margin-left: 5rem;
+    margin-top: 3rem;
+}
