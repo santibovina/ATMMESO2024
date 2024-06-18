@@ -1,5 +1,5 @@
 from django import forms
-from .models import Operacion, DetalleGaveta
+from .models import Operacion, DetalleGaveta, PrecintoBolso
 
 class OperacionForm(forms.ModelForm):
 
@@ -13,7 +13,7 @@ class OperacionForm(forms.ModelForm):
         fields = ['fecha_habilitacion',
                   'cajero',
                   'precinto_depurador',
-                  'precinto_bolso']
+                  ]
         
 class DetalleGavetaForm(forms.ModelForm):
     class Meta:
@@ -31,6 +31,19 @@ DetalleGavetaFormSet = forms.inlineformset_factory(
     Operacion,
     DetalleGaveta,
     form=DetalleGavetaForm,
+    extra=1,
+    can_delete=True
+)
+
+class PrecintoBolsoForm(forms.ModelForm):
+    class Meta:
+        model = PrecintoBolso
+        fields = ['precinto_bolso']
+
+PrecintoBolsoFormSet = forms.inlineformset_factory(
+    Operacion,
+    PrecintoBolso,
+    form=PrecintoBolsoForm,
     extra=1,
     can_delete=True
 )

@@ -62,7 +62,7 @@ class Operacion(models.Model):
     #precinto_gaveta = models.CharField(max_length=15, unique=True)
     #total_por_gaveta = models.IntegerField()
     precinto_depurador = models.CharField(max_length=15, unique=True, null=True, blank=True)
-    precinto_bolso = models.CharField(max_length=15, unique=True)
+    #precinto_bolso = models.CharField(max_length=15, unique=True)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -76,6 +76,13 @@ class DetalleGaveta(models.Model):
 
     def __str__(self):
         return f"Gaveta: {self.gaveta.id_gaveta} | Total de gaveta: ${self.total_por_gaveta}"
+    
+class PrecintoBolso(models.Model):
+    operacion = models.ForeignKey(Operacion, on_delete=models.CASCADE, related_name='precintos_bolso')
+    precinto_bolso = models.CharField(max_length=15, unique=True)
+
+    def __str__(self):
+        return self.precinto_bolso
     
 class TipoDiferencia(models.Model):
     tipo_diferencia = models.CharField(max_length=100)

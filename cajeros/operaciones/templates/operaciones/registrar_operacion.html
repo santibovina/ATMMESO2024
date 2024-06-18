@@ -14,19 +14,29 @@
         {% csrf_token %}
         {{ form.as_p }}
         {{ formset.management_form }}
+        {{ precinto_bolso_formset.management_form }}
         <div id="gaveta-formset">
             {% for form in formset %}
                 <div class="gaveta-form">
-                    {{ form.gaveta }}
-                    {{ form.numero_precinto }}
-                    {{ form.total_por_gaveta }}
+                    Cartucho: {{ form.gaveta }}
+                    Precinto: {{ form.precinto_gaveta }}
+                    Total Cartucho: {{ form.total_por_gaveta }}
                     <button type="button" class="delete-gaveta">Eliminar</button>
+                </div>
+            {% endfor %}
+        </div>
+        <div id="precinto-bolso-formset">
+            {% for form in precinto_bolso_formset %}
+                <div class="precinto-bolso-form">
+                    Precinto bolso: {{ form.precinto_bolso }}
+                    <button type="button" class="delete-precinto-bolso">Eliminar</button>
                 </div>
             {% endfor %}
         </div>
         <button type="submit">Registrar</button>
     </form>
     <button type="button" id="add-gaveta">Agregar Gaveta</button>
+    <button type="button" id="add-precinto-bolso">Agregar Precinto Bolso</button>
 
     <script>
         $(function() {
@@ -36,23 +46,43 @@
 
             $('#add-gaveta').click(function() {
                 var form_idx = $('#id_detallegaveta_set-TOTAL_FORMS').val();
-                $('#gaveta-formset').append($('#empty-form').html().replace(/__prefix__/g, form_idx));
+                $('#gaveta-formset').append($('#empty-gaveta-form').html().replace(/__prefix__/g, form_idx));
                 $('#id_detallegaveta_set-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+            });
+
+            $('#add-precinto-bolso').click(function() {
+                var form_idx = $('#id_precintobolso_set-TOTAL_FORMS').val();
+                $('#precinto-bolso-formset').append($('#empty-precinto-bolso-form').html().replace(/__prefix__/g, form_idx));
+                $('#id_precintobolso_set-TOTAL_FORMS').val(parseInt(form_idx) + 1);
             });
 
             $(document).on('click', '.delete-gaveta', function() {
                 $(this).closest('.gaveta-form').remove();
+                var total_forms = $('#id_detallegaveta_set-TOTAL_FORMS').val();
+                $('#id_detallegaveta_set-TOTAL_FORMS').val(parseInt(total_forms) - 1);
+            });
+
+            $(document).on('click', '.delete-precinto-bolso', function() {
+                $(this).closest('.precinto-bolso-form').remove();
+                var total_forms = $('#id_precintobolso_set-TOTAL_FORMS').val();
+                $('#id_precintobolso_set-TOTAL_FORMS').val(parseInt(total_forms) - 1);
             });
         });
     </script>
 
     <!-- Formulario vacío para ser clonado -->
-    <div id="empty-form" style="display: none;">
+    <div id="empty-gaveta-form" style="display: none;">
         <div class="gaveta-form">
-            {{ formset.empty_form.gaveta }}
-            {{ formset.empty_form.numero_precinto }}
-            {{ formset.empty_form.total_por_gaveta }}
+            Cartucho: {{ formset.empty_form.gaveta }}
+            Precinto: {{ formset.empty_form.precinto_gaveta }}
+            Total Cartucho: {{ formset.empty_form.total_por_gaveta }}
             <button type="button" class="delete-gaveta">Eliminar</button>
+        </div>
+    </div>
+    <div id="empty-precinto-bolso-form" style="display: none;">
+        <div class="precinto-bolso-form">
+            Precinto bolso: {{ precinto_bolso_formset.empty_form.precinto_bolso }}
+            <button type="button" class="delete-precinto-bolso">Eliminar</button>
         </div>
     </div>
 </body>
