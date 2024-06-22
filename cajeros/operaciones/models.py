@@ -66,7 +66,8 @@ class Operacion(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Fecha habilitación: {self.fecha_habilitacion.strftime("%d/%m/%Y")} | Id cajero: {self.cajero.id_cajero} | Banco: {self.cajero.banco} | Denominación: {self.gaveta.denominacion_billete} | Total gaveta 1: ${self.total_por_gaveta} | Fecha carga: {self.fecha_operacion.strftime("%d/%m/%Y")} por {self.usuario}"
+        # return f"Fecha habilitación: {self.fecha_habilitacion.strftime("%d/%m/%Y")} | Id cajero: {self.cajero.id_cajero} | Banco: {self.cajero.banco} | Denominación: {self.gaveta.denominacion_billete} | Total gaveta 1: ${self.total_por_gaveta} | Fecha carga: {self.fecha_operacion.strftime("%d/%m/%Y")} por {self.usuario}"
+        return f"Operación {self.id} - {self.cajero}"
     
 class DetalleGaveta(models.Model):
     operacion = models.ForeignKey(Operacion, on_delete=models.CASCADE, related_name='detalles_gaveta')
@@ -74,8 +75,8 @@ class DetalleGaveta(models.Model):
     precinto_gaveta = models.CharField(max_length=15, unique=True)
     total_por_gaveta = models.IntegerField()
 
-    def __str__(self):
-        return f"Gaveta: {self.gaveta.id_gaveta} | Total de gaveta: ${self.total_por_gaveta}"
+    # def __str__(self):
+    #     return f"Gaveta: {self.gaveta.id_gaveta} | Total de gaveta: ${self.total_por_gaveta}"
     
 class PrecintoBolso(models.Model):
     operacion = models.ForeignKey(Operacion, on_delete=models.CASCADE, related_name='precintos_bolso')

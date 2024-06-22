@@ -32,7 +32,7 @@ DetalleGavetaFormSet = forms.inlineformset_factory(
     DetalleGaveta,
     form=DetalleGavetaForm,
     extra=1,
-    can_delete=True
+    can_delete=False
 )
 
 class PrecintoBolsoForm(forms.ModelForm):
@@ -45,5 +45,5 @@ PrecintoBolsoFormSet = forms.inlineformset_factory(
     PrecintoBolso,
     form=PrecintoBolsoForm,
     extra=1,
-    can_delete=True
+    can_delete=False
 )
