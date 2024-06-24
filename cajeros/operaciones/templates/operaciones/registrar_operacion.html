@@ -3,41 +3,16 @@
 <html>
 <head>
     <title>Registrar Operación</title>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
     <h1>Registrar Operación</h1>
-    <form method="post" enctype="multipart/form-data">
+    <form method="post">
         {% csrf_token %}
-        {{ operacion_form.as_p }}
-        <h4>Detalle de Gavetas</h4>
-        {{ detalle_gaveta_formset.management_form }}
-        <div id="gaveta-formset">
-            {% for form in detalle_gaveta_formset %}
-                <div class="gaveta-form">
-                    Cartucho: {{ form.gaveta }}
-                    Precinto: {{ form.precinto_gaveta }}
-                    Total Cartucho: $ {{ form.total_por_gaveta }}
-                    <button type="button" class="delete-gaveta">Eliminar</button>
-                </div>
-            {% endfor %}
-        </div>
-        <button type="button" id="add-gaveta">Agregar Gaveta</button>
-        {{ precinto_bolso_formset.management_form }}
-        <h4>Detalle de Bolsos</h4>
-        <div id="precinto-bolso-formset">
-            {% for form in precinto_bolso_formset %}
-                <div class="precinto-bolso-form">
-                    Precinto bolso: {{ form.precinto_bolso }}
-                    <button type="button" class="delete-precinto-bolso">Eliminar</button>
-                </div>
-            {% endfor %}
-        </div>
-        <button type="button" id="add-precinto-bolso">Agregar Bolso</button><br><br>
-
+        {{ operacion_form.as_ul }}
         <button type="submit">Registrar</button>
     </form>
 
@@ -46,49 +21,7 @@
             $('#id_fecha_actualizacion').datepicker({
                 dateFormat: 'yy-mm-dd'
             });
-
-            $('#add-gaveta').click(function() {
-                var form_idx = $('#id_detallegaveta_set-TOTAL_FORMS').val();
-                $('#gaveta-formset').append($('#empty-gaveta-form').html().replace(/__prefix__/g, form_idx));
-                $('#id_detallegaveta_set-TOTAL_FORMS').val(parseInt(form_idx) + 1);
-            });
-
-            $('#add-precinto-bolso').click(function() {
-                var form_idx = $('#id_precintobolso_set-TOTAL_FORMS').val();
-                $('#precinto-bolso-formset').append($('#empty-precinto-bolso-form').html().replace(/__prefix__/g, form_idx));
-                $('#id_precintobolso_set-TOTAL_FORMS').val(parseInt(form_idx) + 1);
-            });
-
-            $(document).on('click', '.delete-gaveta', function() {
-                $(this).closest('.gaveta-form').remove();
-                var total_forms = $('#id_detallegaveta_set-TOTAL_FORMS').val();
-                $('#id_detallegaveta_set-TOTAL_FORMS').val(parseInt(total_forms) - 1);
-            });
-
-            $(document).on('click', '.delete-precinto-bolso', function() {
-                $(this).closest('.precinto-bolso-form').remove();
-                var total_forms = $('#id_precintobolso_set-TOTAL_FORMS').val();
-                $('#id_precintobolso_set-TOTAL_FORMS').val(parseInt(total_forms) - 1);
-            });
-
-            
         });
     </script>
-
-    <!-- Formulario vacío para ser clonado -->
-    <div id="empty-gaveta-form" style="display: none;">
-        <div class="gaveta-form">
-            Cartucho: {{ detalle_gaveta_formset.empty_form.gaveta }}
-            Precinto: {{ detalle_gaveta_formset.empty_form.precinto_gaveta }}
-            Total Cartucho: $ {{ detalle_gaveta_formset.empty_form.total_por_gaveta }}
-            <button type="button" class="delete-gaveta">Eliminar</button>
-        </div>
-    </div>
-    <div id="empty-precinto-bolso-form" style="display: none;">
-        <div class="precinto-bolso-form">
-            Precinto bolso: {{ precinto_bolso_formset.empty_form.precinto_bolso }}
-            <button type="button" class="delete-precinto-bolso">Eliminar</button>
-        </div>
-    </div>
 </body>
 </html>

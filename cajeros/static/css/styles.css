@@ -3,7 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'PT Sans', sans-serif;
-    background-color: #ffc107;
+    background-color: #07b9ff;
 }
 
 h1 {
@@ -16,4 +16,9 @@ h2 {
     font-weight: 200;
     color: #212529;
     padding: 2rem;
+}
+
+.inline-field {
+    display: inline-block;
+    margin-right: 10px;
 }

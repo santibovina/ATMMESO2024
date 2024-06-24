@@ -57,32 +57,42 @@ class Gaveta(models.Model):
 class Operacion(models.Model):
     fecha_operacion = models.DateTimeField(auto_now_add=True)
     fecha_habilitacion = models.DateField()
-    cajero = models.ForeignKey(Cajero, on_delete=models.CASCADE, verbose_name="ATM")
-    #gaveta = models.ForeignKey(Gaveta, on_delete=models.CASCADE)
-    #precinto_gaveta = models.CharField(max_length=15, unique=True)
-    #total_por_gaveta = models.IntegerField()
+    cajero = models.ForeignKey(Cajero, on_delete=models.CASCADE, verbose_name="ATM", unique=True)
+    gaveta = models.ForeignKey(Gaveta, on_delete=models.CASCADE, related_name="gaveta_1")
+    precinto_gaveta = models.CharField(max_length=15, unique=True)
+    total_por_gaveta = models.CharField(max_length=25)
+    gaveta_2 = models.ForeignKey(Gaveta, on_delete=models.CASCADE, related_name="gaveta_2", null=True, blank=True, unique=True)
+    precinto_gaveta_2 = models.CharField(max_length=15, unique=True, null=True, blank=True)
+    total_por_gaveta_2 = models.CharField(max_length=25, null=True, blank=True)
+    gaveta_3 = models.ForeignKey(Gaveta, on_delete=models.CASCADE, related_name="gaveta_3", null=True, blank=True, unique=True)
+    precinto_gaveta_3 = models.CharField(max_length=15, unique=True, null=True, blank=True)
+    total_por_gaveta_3 = models.CharField(max_length=25, null=True, blank=True)
+    gaveta_4 = models.ForeignKey(Gaveta, on_delete=models.CASCADE, related_name="gaveta_4", null=True, blank=True, unique=True)
+    precinto_gaveta_4 = models.CharField(max_length=15, unique=True, null=True, blank=True)
+    total_por_gaveta_4 = models.CharField(max_length=25, null=True, blank=True)
     precinto_depurador = models.CharField(max_length=15, unique=True, null=True, blank=True)
-    #precinto_bolso = models.CharField(max_length=15, unique=True)
+    precinto_bolso = models.CharField(max_length=15, unique=True)
+    precinto_bolso_2 = models.CharField(max_length=15, unique=True, null=True, blank=True)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    # def __str__(self):
-    #     return f"Operación {self.id} - Fecha habilitación: {self.fecha_habilitacion.strftime("%d/%m/%Y")} | Id cajero: {self.cajero.id_cajero} | Banco: {self.cajero.banco} | Denominación: {self.gaveta.denominacion_billete} | Total gaveta 1: ${self.detallegaveta.total_por_gaveta} | Fecha carga: {self.fecha_operacion.strftime("%d/%m/%Y")} por {self.usuario}"
-    
-class DetalleGaveta(models.Model):
-    operacion = models.ForeignKey(Operacion, on_delete=models.CASCADE, related_name='detalles_gaveta')
-    gaveta = models.ForeignKey(Gaveta, on_delete=models.CASCADE)
-    precinto_gaveta = models.CharField(max_length=15, unique=True)
-    total_por_gaveta = models.IntegerField()
-
     def __str__(self):
-        return f"Gaveta: {self.gaveta.id_gaveta} | Total de gaveta: ${self.total_por_gaveta}"
+        return f"Operación {self.id} - Fecha habilitación: {self.fecha_habilitacion.strftime("%d/%m/%Y")} | Id cajero: {self.cajero.id_cajero} | Banco: {self.cajero.banco} | Denominación: {self.gaveta.denominacion_billete} | Total gaveta: ${self.total_por_gaveta} | Fecha carga: {self.fecha_operacion.strftime("%d/%m/%Y")} por {self.usuario}"
     
-class PrecintoBolso(models.Model):
-    operacion = models.ForeignKey(Operacion, on_delete=models.CASCADE, related_name='precintos_bolso')
-    precinto_bolso = models.CharField(max_length=15, unique=True)
+# class DetalleGaveta(models.Model):
+#     operacion = models.ForeignKey(Operacion, on_delete=models.CASCADE, related_name='detalles_gaveta')
+#     gaveta = models.ForeignKey(Gaveta, on_delete=models.CASCADE)
+#     precinto_gaveta = models.CharField(max_length=15, unique=True)
+#     total_por_gaveta = models.IntegerField()
 
-    def __str__(self):
-        return self.precinto_bolso
+#     def __str__(self):
+#         return f"Gaveta: {self.gaveta.id_gaveta} | Total de gaveta: ${self.total_por_gaveta}"
+    
+# class PrecintoBolso(models.Model):
+#     operacion = models.ForeignKey(Operacion, on_delete=models.CASCADE, related_name='precintos_bolso')
+#     precinto_bolso = models.CharField(max_length=15, unique=True)
+
+#     def __str__(self):
+#         return self.precinto_bolso
     
 class TipoDiferencia(models.Model):
     tipo_diferencia = models.CharField(max_length=100)
