@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registrar Operación</title>
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .form-section, .preview-section {
+            width: 48%;
+            padding: 20px;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .preview-section {
+            background-color: #f9f9f9;
+        }
+        .form-row {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Registrar Operación</h1>
+    <div class="container">
+        <div class="form-section">
+            <form id="operacion-form" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                {{ formset.management_form }}
+                <div id="detalle_gavetas">
+                    {% for form in formset %}
+                        <div class="form-row">
+                            {{ form.as_p }}
+                        </div>
+                    {% endfor %}
+                </div>
+                <button type="button" id="add-gaveta">Agregar Gaveta</button>
+                <button type="submit">Registrar</button>
+            </form>
+        </div>
+
+        <div class="preview-section">
+            <h2>Vista Previa</h2>
+            <p><strong>Fecha de Actualización:</strong> <span id="preview-fecha_actualizacion"></span></p>
+            <p><strong>Cajero:</strong> <span id="preview-cajero"></span></p>
+            <p><strong>Precinto Depurador:</strong> <span id="preview-precinto_depurador"></span></p>
+            <p><strong>Precinto Bolso:</strong> <span id="preview-precinto_bolso"></span></p>
+            <p><strong>Precinto Bolso 2:</strong> <span id="preview-precinto_bolso_2"></span></p>
+            <h3>Gavetas</h3>
+            <div id="preview-gavetas">
+                <!-- Gavetas will be listed here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('add-gaveta').addEventListener('click', function () {
+                var detailForms = document.getElementById('detalle_gavetas');
+                var newForm = detailForms.children[0].cloneNode(true);
+                var formIdx = document.querySelectorAll('#detalle_gavetas .form-row').length;
+                newForm.innerHTML = newForm.innerHTML.replace(/__prefix__/g, formIdx);
+                detailForms.appendChild(newForm);
+                updatePreview();
+            });
+
+            document.getElementById('operacion-form').addEventListener('input', function () {
+                updatePreview();
+            });
+
+            function updatePreview() {
+                var fechaActualizacionElement = document.getElementById('id_fecha_actualizacion');
+                if (fechaActualizacionElement) {
+                    document.getElementById('preview-fecha_actualizacion').innerText = fechaActualizacionElement.value;
+                }
+
+                var cajeroElement = document.getElementById('id_cajero');
+                if (cajeroElement) {
+                    document.getElementById('preview-cajero').innerText = cajeroElement.options[cajeroElement.selectedIndex].text;
+                }
+
+                var precintoDepuradorElement = document.getElementById('id_precinto_depurador');
+                if (precintoDepuradorElement) {
+                    document.getElementById('preview-precinto_depurador').innerText = precintoDepuradorElement.value;
+                }
+
+                var precintoBolsoElement = document.getElementById('id_precinto_bolso');
+                if (precintoBolsoElement) {
+                    document.getElementById('preview-precinto_bolso').innerText = precintoBolsoElement.value;
+                }
+
+                var precintoBolsoElement = document.getElementById('id_precinto_bolso_2');
+                if (precintoBolsoElement) {
+                    document.getElementById('preview-precinto_bolso_2').innerText = precintoBolsoElement.value;
+                }
+
+                var previewGavetas = document.getElementById('preview-gavetas');
+                previewGavetas.innerHTML = '';  // Clear previous content
+
+                var gavetaForms = document.querySelectorAll('#detalle_gavetas .form-row');
+                gavetaForms.forEach(function (form, index) {
+                    var idGavetaElement = form.querySelector('[name$="-gaveta"]');
+                    var numeroPrecintoElement = form.querySelector('[name$="-precinto_gaveta"]');
+                    var totalPorGavetaElement = form.querySelector('[name$="-total_por_gaveta"]');
+
+                    if (idGavetaElement && numeroPrecintoElement && totalPorGavetaElement) {
+                        var idGaveta = idGavetaElement.options[idGavetaElement.selectedIndex].text;
+                        var numeroPrecinto = numeroPrecintoElement.value;
+                        var totalPorGaveta = totalPorGavetaElement.value;
+
+                        var previewItem = document.createElement('p');
+                        previewItem.innerHTML = `<strong>Gaveta ${index + 1}:</strong> ${idGaveta}, Precinto: ${numeroPrecinto}, Total: ${totalPorGaveta}`;
+                        previewGavetas.appendChild(previewItem);
+                    }
+                });
+            }
+
+            // Initialize preview on page load
+            updatePreview();
+        });
+    </script>
+</body>
+</html>
