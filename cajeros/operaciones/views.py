@@ -5,21 +5,19 @@ from .forms import OperacionForm, DetalleGavetaFormSet
 
 @login_required
 def registrar_operacion(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         form = OperacionForm(request.POST)
-        formset = DetalleGavetaFormSet(request.POST, instance=form.instance)
-
+        formset = DetalleGavetaFormSet(request.POST, request.FILES)
         if form.is_valid() and formset.is_valid():
-            operacion = form.save()
-            detalles = formset.save(commit=False)
-            for detalle in detalles:
-                detalle.operacion = operacion
-                detalle.save()
+            operacion = form.save(commit=False)
+            operacion.usuario = request.user  # Asignar el usuario logueado
+            operacion.save()
+            formset.instance = operacion
+            formset.save()
             return redirect('lista_operaciones')
     else:
         form = OperacionForm()
         formset = DetalleGavetaFormSet()
-
     return render(request, 'operaciones/registrar.html', {
         'form': form,
         'formset': formset,

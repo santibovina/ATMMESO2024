@@ -14,8 +14,7 @@ class OperacionForm(forms.ModelForm):
                   'cajero',
                   'precinto_depurador',
                   'precinto_bolso',
-                  'precinto_bolso_2',
-                  'usuario'
+                  'precinto_bolso_2'
                   ]
         # widgets = {
         #     'gaveta': forms.Select(attrs={'class': 'inline-field'}),
@@ -31,5 +30,5 @@ class DetalleGavetaForm(forms.ModelForm):
                   'total_por_gaveta']
 
 DetalleGavetaFormSet = forms.inlineformset_factory(
-    Operacion, DetalleGaveta, form=DetalleGavetaForm, extra=1, can_delete=True
+    Operacion, DetalleGaveta, form=DetalleGavetaForm, extra=1, can_delete=False
 )

@@ -1,28 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'operaciones/css/styles.css' %}">
     <title>Registrar Operación</title>
-    <style>
-        .container {
-            display: flex;
-            justify-content: space-between;
-        }
-        .form-section, .preview-section {
-            width: 48%;
-            padding: 20px;
-            border: 1px solid #ddd;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        .preview-section {
-            background-color: #f9f9f9;
-        }
-        .form-row {
-            margin-bottom: 10px;
-        }
-    </style>
 </head>
 <body>
-    <h1>Registrar Operación</h1>
+    <h1>Armado ATM</h1>
     <div class="container">
         <div class="form-section">
             <form id="operacion-form" method="post">
@@ -36,19 +20,21 @@
                         </div>
                     {% endfor %}
                 </div>
-                <button type="button" id="add-gaveta">Agregar Gaveta</button>
+                <button type="button" id="add-gaveta">Agregar Gaveta</button><br>
                 <button type="submit">Registrar</button>
             </form>
         </div>
 
         <div class="preview-section">
-            <h2>Vista Previa</h2>
-            <p><strong>Fecha de Actualización:</strong> <span id="preview-fecha_actualizacion"></span></p>
+            <h2>Detalle Armado</h2>
+            <p><strong>Fecha de Habilitación:</strong> <span id="preview-fecha_habilitacion"></span></p>
             <p><strong>Cajero:</strong> <span id="preview-cajero"></span></p>
+            <h3 id="vista__detalle-subtitulo">Depurador</h3>
             <p><strong>Precinto Depurador:</strong> <span id="preview-precinto_depurador"></span></p>
+            <h3 id="vista__detalle-subtitulo">Bolsos</h3>
             <p><strong>Precinto Bolso:</strong> <span id="preview-precinto_bolso"></span></p>
             <p><strong>Precinto Bolso 2:</strong> <span id="preview-precinto_bolso_2"></span></p>
-            <h3>Gavetas</h3>
+            <h3 id="vista__detalle-subtitulo">Gavetas</h3>
             <div id="preview-gavetas">
                 <!-- Gavetas will be listed here -->
             </div>
@@ -71,9 +57,9 @@
             });
 
             function updatePreview() {
-                var fechaActualizacionElement = document.getElementById('id_fecha_actualizacion');
-                if (fechaActualizacionElement) {
-                    document.getElementById('preview-fecha_actualizacion').innerText = fechaActualizacionElement.value;
+                var fechaHabilitacionElement = document.getElementById('id_fecha_habilitacion');
+                if (fechaHabilitacionElement) {
+                    document.getElementById('preview-fecha_habilitacion').innerText = fechaHabilitacionElement.value;
                 }
 
                 var cajeroElement = document.getElementById('id_cajero');
