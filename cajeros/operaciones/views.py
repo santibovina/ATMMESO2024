@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Operacion
 from .forms import OperacionForm, DetalleGavetaFormSet
+from django.urls import reverse
 
 @login_required
 def registrar_operacion(request):
@@ -14,7 +15,7 @@ def registrar_operacion(request):
             operacion.save()
             formset.instance = operacion
             formset.save()
-            return redirect('lista_operaciones')
+            return redirect(reverse('lista_operaciones'))
     else:
         form = OperacionForm()
         formset = DetalleGavetaFormSet()
